@@ -1,25 +1,27 @@
 package academic.cookSalad;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.s2n.ddt.util.DdtIoUtls;
 import org.s2n.ddt.util.ExcelAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Can use DdtUtils excel reader (which uses POI) to read an excel and run data cases
  * More pain to make but once made can add a variety of test cases
  * and validations per truth table at 
- * 
+ * Not yet complete need to check impl code and test case data for accuracy.
  * TODO 
  * @author tushar
  *
  */
 public class CookDataTest {
-	
-	final static String SHT_NAME = "Sheet1";
+	private static final Logger logger = LoggerFactory.getLogger(CookDataTest.class);
 
+	final static String SHT_NAME = "tests";
+	final String TRUTH_TABLE_XLS = "./src/test/resources/TruthTableCookIt.xlsx";
 	@Test
 	public void data(){
 		ExcelAccess xls = initExcelData();
@@ -105,11 +107,12 @@ public class CookDataTest {
 		DdtIoUtls.printCurrentFolderName();
 		ExcelAccess xlsWk = new ExcelAccess();
 		// /u/w/w4moh/CookSalad/src/test/resources/TruthTableCookIt.xlsx
-		final String full = "/u/w/w4moh/CookSalad/src/test/resources/TruthTableCookIt.xlsx";
-		final String rel = "./src/test/resources/TruthTableCookIt.xlsx";
-		xlsWk.openWorkBook(new java.io.File(full));
+		//final String full = "/u/w/w4moh/CookSalad/src/test/resources/TruthTableCookIt.xlsx";
+		
+		xlsWk.openWorkBook(new java.io.File(TRUTH_TABLE_XLS));
 		String ss = xlsWk.getCellValue("Sheet1", 10, 3);
-		System.out.println(":" + ss + ". 2 :" + xlsWk.getCellValue("Sheet1", 9, 3) + ".");
+		logger.debug("Loaded Excel truth table ");
+		System.out.println("Loaded excel value at 10,3 :" + ss + ". 2 :" + xlsWk.getCellValue("Sheet1", 9, 3) + ".");
 		return xlsWk;
 		
 	}
